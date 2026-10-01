@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pixel Image Studio V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Nanum+Brush+Script&family=Noto+Sans+KR:wght@400;700;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="page-shell">
+    <header class="topbar pixel-panel">
+      <div>
+        <p class="eyebrow">SNS IMAGE MAKER · VERSION 2</p>
+        <h1>PIXEL IMAGE STUDIO</h1>
+      </div>
+      <p id="status" class="status-chip">PNG 또는 JPEG 이미지를 불러오세요.</p>
+    </header>
+
+    <main class="app-grid">
+      <aside class="tool-panel pixel-panel" aria-label="왼쪽 도구 패널">
+        <section class="control-section">
+          <h2>IMAGE</h2>
+
+        <label class="control-label" for="imageInput">이미지 추가</label>
+
+        <label class="file-button nes-btn is-primary" for="imageInput">
+          사진 불러오기
+        </label>
+
+        <input
+          accept="image/png,image/jpeg"
+          hidden
+          id="imageInput"
+          type="file"
+          multiple
+        />
+
+        <div id="imageLayerList" class="image-layer-list"></div>
+
+        <label class="control-label" for="imageRotationInput">
+          회전
+          <span class="value-badge" id="imageRotationValue">0°</span>
+        </label>
+
+        <input
+          id="imageRotationInput"
+          type="range"
+          min="-180"
+          max="180"
+          value="0"
+        />
+
+        <div class="image-layer-buttons">
+          <button class="nes-btn small-button" id="fitImageBtn">
+              Canvas 맞춤
+          </button>
+
+          <button class="nes-btn small-button" id="bringForwardBtn">
+            앞으로
+          </button>
+
+          <button class="nes-btn small-button" id="sendBackwardBtn">
+            뒤로
+          </button>
+
+          <button class="nes-btn is-error small-button" id="deleteImageBtn">
+            선택 삭제
+          </button>
+        </div>
+        <p class="mini-help">
+          이미지를 선택하면 이동·크기·회전할 수 있습니다.
+        </p>
+      </section>
+
+        <section class="control-section">
+          <h2>TEXT</h2>
+          <label class="control-label" for="textInput">메인 문구</label>
+          <textarea id="textInput" rows="2" class="pixel-input">메인 제목</textarea>
+
+          <label class="control-label" for="subtextInput">보조 문구</label>
+          <textarea id="subtextInput" rows="2" class="pixel-input">보조 문구</textarea>
+
+          <label class="control-label" for="fontSizeInput">
+            글자 크기 <span id="fontSizeValue" class="value-badge">90</span>
+          </label>
+          <input type="range" id="fontSizeInput" min="30" max="180" value="90" />
+
+          <label class="control-label" for="textRotationInput">
+            글자 회전 <span id="textRotationValue" class="value-badge">0°</span>
+          </label>
+
+          <input
+            type="range"
+            id="textRotationInput"
+            min="-180"
+            max="180"
+            value="0"
+          />
+
+          <label class="control-label" for="fontFamilyInput">폰트</label>
+          <select id="fontFamilyInput" class="pixel-input">
+            <option value="'Noto Sans KR', sans-serif">Noto Sans KR</option>
+            <option value="'Do Hyeon', sans-serif">Do Hyeon</option>
+            <option value="'Black Han Sans', sans-serif">Black Han Sans</option>
+            <option value="'Nanum Brush Script', cursive">Nanum Brush</option>
+            <option value="Arial, sans-serif">Arial</option>
+          </select>
+
+          <label class="control-label" for="fontWeightInput">폰트 굵기</label>
+          <select id="fontWeightInput" class="pixel-input">
+            <option value="400">보통</option>
+            <option value="700" selected>굵게</option>
+            <option value="900">아주 굵게</option>
+          </select>
+
+          <div class="two-col">
+            <label class="color-control">글자 색상<input type="color" id="colorInput" value="#ffffff" /></label>
+            <label class="color-control">외곽선<input type="color" id="strokeColorInput" value="#000000" /></label>
+          </div>
+
+          <label class="control-label" for="strokeWidthInput">
+            외곽선 두께 <span id="strokeWidthValue" class="value-badge">4</span>
+          </label>
+          <input type="range" id="strokeWidthInput" min="0" max="12" value="4" />
+
+          <details class="legacy-position">
+            <summary>정밀 위치 조절</summary>
+            <label class="control-label" for="xInput">가로 위치</label>
+            <input type="range" id="xInput" min="0" max="100" value="50" />
+            <label class="control-label" for="yInput">세로 위치</label>
+            <input type="range" id="yInput" min="0" max="100" value="18" />
+          </details>
+          <p class="mini-help">캔버스의 텍스트를 직접 드래그하고, 선택 박스 우하단 핸들로 크기를 조절할 수도 있습니다.</p>
+        </section>
+
+        <section class="control-section compact-section">
+          <h2>RATIO</h2>
+          <div class="ratio-buttons segmented">
+            <button data-ratio="1:1" class="nes-btn">1:1</button>
+            <button data-ratio="4:5" class="nes-btn is-success active">4:5</button>
+            <button data-ratio="9:16" class="nes-btn">9:16</button>
+          </div>
+        </section>
+      </aside>
+
+      <section class="workspace pixel-panel" aria-label="편집 캔버스">
+        <div class="workspace-head">
+          <div>
+            <span class="pixel-tag">CANVAS</span>
+            <strong id="canvasInfo">1080 × 1350</strong>
+          </div>
+          <span class="mini-help">이미지·텍스트 클릭 → 이동 / 핸들 → 크기·회전</span>
+        </div>
+        <div class="canvas-stage">
+          <canvas id="canvas"></canvas>
+        </div>
+      </section>
+
+      <aside class="tool-panel right-panel pixel-panel" aria-label="오른쪽 속성 패널">
+        <section class="control-section">
+          <h2>COLOR</h2>
+          <label class="control-label" for="brightnessInput">밝기 <span id="brightnessValue" class="value-badge">100</span></label>
+          <input type="range" id="brightnessInput" min="40" max="160" value="100" />
+
+          <label class="control-label" for="contrastInput">대비 <span id="contrastValue" class="value-badge">100</span></label>
+          <input type="range" id="contrastInput" min="40" max="180" value="100" />
+
+          <label class="control-label" for="saturationInput">채도 <span id="saturationValue" class="value-badge">100</span></label>
+          <input type="range" id="saturationInput" min="0" max="200" value="100" />
+
+          <label class="control-label" for="blurInput">블러 <span id="blurValue" class="value-badge">0</span></label>
+          <input type="range" id="blurInput" min="0" max="12" value="0" />
+          <button id="resetFiltersBtn" class="nes-btn is-warning small-button">색감 초기화</button>
+        </section>
+
+        <section class="control-section">
+          <h2>FRAME</h2>
+          <label class="control-label" for="borderStyleInput">테두리 스타일</label>
+          <select id="borderStyleInput" class="pixel-input">
+            <option value="none">없음</option>
+            <option value="simple">심플 픽셀</option>
+            <option value="double">더블 픽셀</option>
+            <option value="rpg">RPG 골드</option>
+          </select>
+          <label class="control-label" for="borderWidthInput">두께 <span id="borderWidthValue" class="value-badge">12</span></label>
+          <input type="range" id="borderWidthInput" min="2" max="48" value="12" />
+          <label class="color-control full">테두리 색상<input type="color" id="borderColorInput" value="#f4c66a" /></label>
+        </section>
+
+        <section class="control-section">
+          <h2>TEMPLATE</h2>
+          <input id="templateName" class="pixel-input" type="text" placeholder="예: 족발 기본형" />
+          <div class="buttons three-buttons">
+            <button id="saveTemplateBtn" class="nes-btn">저장</button>
+            <button id="updateTemplateBtn" class="nes-btn">수정</button>
+            <button id="deleteTemplateBtn" class="nes-btn is-error">삭제</button>
+          </div>
+          <select id="templateSelect" class="pixel-input">
+            <option value="">저장된 템플릿 선택</option>
+          </select>
+          <button id="loadTemplateBtn" class="nes-btn small-button">선택한 템플릿 불러오기</button>
+          <div class="buttons">
+            <button id="exportJsonBtn" class="nes-btn small-button">JSON 내보내기</button>
+            <button id="importJsonBtn" class="nes-btn small-button">JSON 가져오기</button>
+          </div>
+          <input type="file" id="jsonInput" accept="application/json,.json" hidden />
+        </section>
+
+        <section class="control-section save-section">
+          <h2>SAVE</h2>
+          <select id="downloadFormat" class="pixel-input">
+            <option value="image/png">PNG</option>
+            <option value="image/jpeg">JPG</option>
+          </select>
+          <button id="downloadBtn" class="nes-btn is-success download">이미지 다운로드</button>
+        </section>
+
+        <section class="bichon-card" aria-label="비숑 도움말 캐릭터">
+          <button id="bichonButton" class="bichon-button" type="button" aria-controls="helpDialog" aria-expanded="false">
+            <img src="assets/bichon-helper.png" alt="비숑 도우미">
+          </button>
+          <div>
+            <strong>PIXEL BICHON</strong>
+            <p>클릭하면 기능을 설명해줄게!</p>
+          </div>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <section id="helpDialog" class="help-dialog pixel-panel" aria-live="polite" hidden>
+    <div class="dialog-character">
+      <img src="assets/bichon-helper.png" alt="비숑 도우미">
+    </div>
+    <div class="dialog-content">
+      <div class="dialog-title-row">
+        <strong>PIXEL BICHON GUIDE</strong>
+        <button id="closeHelpBtn" class="nes-btn is-error dialog-close" type="button" aria-label="도움말 닫기">×</button>
+      </div>
+      <p id="helpText">안녕! 궁금한 기능을 골라줘. 사용법을 짧게 알려줄게!</p>
+      <div class="help-topics" id="helpTopics">
+        <button type="button" data-help="image" class="nes-btn">이미지</button>
+        <button type="button" data-help="text" class="nes-btn">텍스트</button>
+        <button type="button" data-help="color" class="nes-btn">색감</button>
+        <button type="button" data-help="frame" class="nes-btn">테두리</button>
+        <button type="button" data-help="save" class="nes-btn">저장</button>
+      </div>
+      <p class="future-note">※ 자연어 AI 편집 기능은 추후 API 연동을 고려한 확장 영역입니다.</p>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
