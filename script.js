@@ -1958,6 +1958,24 @@ function playBichonReaction() {
   bichonButton.classList.add("is-excited");
 }
 
+const dialogBichon = document.querySelector(".dialog-character img");
+
+function playBichonSpin() {
+  if (!dialogBichon) return;
+
+  dialogBichon.classList.remove("is-spinning");
+  void dialogBichon.offsetWidth;
+  dialogBichon.classList.add("is-spinning");
+}
+
+if (dialogBichon) {
+  dialogBichon.addEventListener("animationend", event => {
+    if (event.animationName === "bichon-spin") {
+      dialogBichon.classList.remove("is-spinning");
+    }
+  });
+}
+
 
 // 비숑 클릭
 bichonButton.addEventListener("click", () => {
@@ -1998,6 +2016,8 @@ helpTopics.addEventListener("click", event => {
 
   helpText.textContent =
     HELP_COPY[key] || HELP_COPY.image;
+
+  playBichonSpin();
 });
 
 // -----------------------------
