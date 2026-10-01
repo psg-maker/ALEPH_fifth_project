@@ -505,6 +505,23 @@ canvas {
   100% { transform: translateY(0) rotate(0); }
 }
 
+/* AI B: 도움말 주제를 고를 때 대화창 비숑이 점프하며 한 바퀴 돈다. */
+.dialog-character img.is-spinning {
+  animation: bichon-spin .64s steps(4, end) 1;
+}
+
+@keyframes bichon-spin {
+  0%   { transform: translateY(0) rotateY(0deg); }
+  50%  { transform: translateY(-8px) rotateY(180deg); }
+  100% { transform: translateY(0) rotateY(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialog-character img.is-spinning {
+    animation: none;
+  }
+}
+
 .help-dialog {
   position: fixed;
   z-index: 100;
